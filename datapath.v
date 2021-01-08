@@ -265,15 +265,12 @@ module datapath (
 			2'd0: fwd_data_rs = data_rs;
 			2'd1: fwd_data_rs = alu_out;
 			2'd2: fwd_data_rs = EX_MEM_aluout;
-			2'd3: fwd_data_rs = mem_din; //load operation
-		endcase
+			2'd3: fwd_data_rs = mem_din; 
 		case(fwd_rt)
 			2'd0: fwd_data_rt = data_rt;
 			2'd1: fwd_data_rt = alu_out;
 			2'd2: fwd_data_rt = EX_MEM_aluout;
-			2'd3: fwd_data_rt = mem_din; //load operation
-		endcase
-	end
+			2'd3: fwd_data_rt = mem_din; 
 	//EXE
 	always @(posedge clk) begin
 		if(exe_rst) begin
@@ -404,7 +401,7 @@ module datapath (
 		mem_wen = EX_MEM_mem_wen,
 		mem_addr = EX_MEM_aluout;
 	assign
-		mem_dout=EX_MEM_data_rt;
+		mem_dout=EX_MEM_fwd_mem?MEM_WB_regw_addr: EX_MEM_data_rt;
 	
 	always @( *) begin
 		regw_data = EX_MEM_aluout;

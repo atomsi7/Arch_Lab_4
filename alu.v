@@ -32,10 +32,10 @@ module alu (
 				result = a | b;
 			end
 			EXE_ALU_SLL:begin
-				result = b << a;
+				result = b << a[4:0];
 			end
 			EXE_ALU_SRL:begin
-				result = b >> a;
+				result = b >> a[4:0];
 			end
 			EXE_ALU_LUI:begin
 				result = {b[15:0],16'b0};

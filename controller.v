@@ -94,6 +94,8 @@ module controller (/*AUTOARG*/
 		/*===========*/
 		rs_used=0;
 		rt_used=0;
+		is_load = 0;
+		is_store = 0;
 
 		case (inst[31:26])	// opcode
 			INST_R: begin
@@ -146,6 +148,7 @@ module controller (/*AUTOARG*/
 					end
 					R_FUNC_SLL:begin
 						exe_alu_oper = EXE_ALU_SLL;
+						exe_a_src = EXE_A_SA;
 						wb_addr_src = WB_ADDR_RD;
 						wb_data_src = WB_DATA_ALU;
 						wb_wen = 1;
@@ -154,6 +157,7 @@ module controller (/*AUTOARG*/
 					end
 					R_FUNC_SRL:begin
 						exe_alu_oper = EXE_ALU_SRL;
+						exe_a_src = EXE_A_SA;
 						wb_addr_src = WB_ADDR_RD;
 						wb_data_src = WB_DATA_ALU;
 						wb_wen = 1;
@@ -330,9 +334,6 @@ module controller (/*AUTOARG*/
 		end
 		if (rt_used && addr_rt != 0) begin
 			if (ID_EX_regw_addr == addr_rt && ID_EX_wb_wen) begin
-				reg_stall = 1;
-			end
-			else if (EX_MEM_regw_addr == addr_rt && EX_MEM_wb_wen) begin
 				if(is_load_exe) begin
 					if(is_store)
 						fwd_mem_ctrl = 1; 	//store after load
