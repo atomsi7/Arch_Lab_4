@@ -40,7 +40,7 @@ module datapath (
 
 
 	/*new signals*/
-	//!!TODO 未赋�
+	//!!TODO 未赋�
 	output reg[4:0] ID_EX_regw_addr,
 	output reg[4:0] EX_MEM_regw_addr, 
 	output reg ID_EX_wb_wen,
@@ -265,12 +265,15 @@ module datapath (
 			2'd0: fwd_data_rs = data_rs;
 			2'd1: fwd_data_rs = alu_out;
 			2'd2: fwd_data_rs = EX_MEM_aluout;
-			2'd3: fwd_data_rs = mem_din; 
+			2'd3: fwd_data_rs = mem_din;
+		endcase
 		case(fwd_rt)
 			2'd0: fwd_data_rt = data_rt;
 			2'd1: fwd_data_rt = alu_out;
 			2'd2: fwd_data_rt = EX_MEM_aluout;
 			2'd3: fwd_data_rt = mem_din; 
+		endcase
+	end
 	//EXE
 	always @(posedge clk) begin
 		if(exe_rst) begin
@@ -337,7 +340,7 @@ module datapath (
 		case (ID_EX_b_src)
 			EXE_B_RT: opb = ID_EX_data_rt;
 			EXE_B_IMM: opb = ID_EX_data_imm;
-			EXE_B_LINK: opb = 0;//原来�
+			EXE_B_LINK: opb = 0;//原来�
 			//EXE_B_BRANCH: opb = ID_EX_data_imm << 2;
 		endcase
 	end
